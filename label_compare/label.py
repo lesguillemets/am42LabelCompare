@@ -8,9 +8,11 @@ from pathlib import Path
 # the video is currently 29.97 fps
 
 VIDEO_FPS: float = 29.97
-type SingleLabel = tuple[int, int, int]
+type Label = int
+type Frame = int
+type SingleLabel = tuple[Frame, Frame, Label]
 
-def to_bucket(labels: list[SingleLabel]) -> list[int]:
+def to_bucket(labels: list[SingleLabel]) -> list[Label]:
     bucket = []
     for (st,en,label) in labels:
         bucket.extend([label]*(en-st))
@@ -25,6 +27,16 @@ class Labelling:
 
     def say_hi(self):
         print("HI")
+
+    def number_frames_of(self, l:Label) -> int:
+        n = 0
+        for (st,en,lb) in self.labels:
+            if lb == l:
+                n += en-st
+        return n
+
+    def length(self) -> Frame:
+        return self.labels[-1][1] -1
 
     @staticmethod
     def from_csv_in_seconds(fl: Path, name: str = "") -> Labelling:
