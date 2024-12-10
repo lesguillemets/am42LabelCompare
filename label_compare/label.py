@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections.abc import Iterator, Callable
 
 import csv
 import math
@@ -40,6 +41,9 @@ class Labelling:
                 n += en - st
         return n
 
+    def at(self, n:Frame) -> Label:
+        return(self.__bucket[n])
+
     def length(self) -> Frame:
         return self.labels[-1][1] - 1
 
@@ -63,6 +67,13 @@ class Labelling:
             f"stdev: {statistics.stdev(length_spans):.3f}",
             sep="\t",
         )
+
+    def agreement_with(self, other:Labelling, for_label: list[Label] | None = None) -> tuple[int,int]:
+        the_part = list(filter(lambda z: for_label is None or z[0] in for_label, zip(self.__bucket, other.__bucket) ))
+        outof = len(the_part)
+        agreement = len(list(filter(lambda z: z[0] == z[1], the_part)))
+        return  (agreement,outof)
+
 
     @staticmethod
     def from_csv_in_seconds(fl: Path, name: str = "") -> Labelling:

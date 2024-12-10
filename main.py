@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from label_compare.label import Labelling
-from label_compare.compare import LabelComparer
+from label_compare.compare import LabelComparer, lc_simple_agreement
 from pathlib import Path
 
 
@@ -12,6 +12,7 @@ def main():
         d.report_stats()
         print("\n_____________________")
         # print(d.labels)
+    lc_simple_agreement.report(dat)
 
 
 if __name__ == "__main__":
