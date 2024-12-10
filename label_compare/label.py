@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import math
 import statistics
+import itertools as it
 from pathlib import Path
 
 # label = (start, end (in frames), label)
@@ -30,10 +31,12 @@ class Labelling:
     def say_hi(self):
         print("HI")
 
-    def number_frames_of(self, l: Label) -> int:
+    def number_frames_of(self, l: Label | list[Label]) -> int:
         n = 0
+        if not isinstance(l, list):
+            l = [l]
         for st, en, lb in self.labels:
-            if lb == l:
+            if lb in l:
                 n += en - st
         return n
 
@@ -43,8 +46,8 @@ class Labelling:
     def report_stats(self) -> None:
         print(self.name)
         print(f"|\t {self.length()} frames total")
-        print(f"|-\t Number of frames for each labels:")
-        for lkind in range(4):
+        print("|-\t Number of frames for each labels:")
+        for lkind in it.chain(range(4), [[0,1], [2,3]]):
             nf = self.number_frames_of(lkind)
             print(
                 f"|\t{nf} ({nf*100/self.length():.2f}%) frames with label {lkind}; ",
