@@ -10,11 +10,18 @@ from pathlib import Path
 VIDEO_FPS: float = 29.97
 type SingleLabel = tuple[int, int, int]
 
+def to_bucket(labels: list[SingleLabel]) -> list[int]:
+    bucket = []
+    for (st,en,label) in labels:
+        bucket.extend([label]*(en-st))
+    return bucket
+
 
 class Labelling:
     def __init__(self, name: str, ls: list[SingleLabel]) -> None:
         self.name = name
         self.labels = ls
+        self.__bucket = to_bucket(ls)
 
     def say_hi(self):
         print("HI")
@@ -25,6 +32,9 @@ class Labelling:
         # 多分 js でとれる video.duration は
         # フレームごとに離散の値ではないんだと思う
         # …ので，ここは 29.97 かけて floor でフレームにすることに
+        # (0,3,2), (3,10,0), (10,230,1) …みたいになるので，
+        # 一旦 SingleLabel(start,end,label) は [start, end)
+        # の区間を表してるものとみなすことにしよう．
         with open(fl, newline="") as csvfile:
             if name == "":
                 name = fl.name
