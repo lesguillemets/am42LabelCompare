@@ -19,5 +19,3 @@ class LabelComparer:
 
     def report(self, labellings: list[Labelling]) -> None:
         print(self.gen_comparison(labellings))
-
-

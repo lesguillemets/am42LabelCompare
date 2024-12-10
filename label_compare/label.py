@@ -13,10 +13,11 @@ type Label = int
 type Frame = int
 type SingleLabel = tuple[Frame, Frame, Label]
 
+
 def to_bucket(labels: list[SingleLabel]) -> list[Label]:
     bucket = []
-    for (st,en,label) in labels:
-        bucket.extend([label]*(en-st))
+    for st, en, label in labels:
+        bucket.extend([label] * (en - st))
     return bucket
 
 
@@ -29,15 +30,15 @@ class Labelling:
     def say_hi(self):
         print("HI")
 
-    def number_frames_of(self, l:Label) -> int:
+    def number_frames_of(self, l: Label) -> int:
         n = 0
-        for (st,en,lb) in self.labels:
+        for st, en, lb in self.labels:
             if lb == l:
-                n += en-st
+                n += en - st
         return n
 
     def length(self) -> Frame:
-        return self.labels[-1][1] -1
+        return self.labels[-1][1] - 1
 
     def report_stats(self) -> None:
         print(self.name)
@@ -45,17 +46,20 @@ class Labelling:
         print(f"|-\t Number of frames for each labels:")
         for lkind in range(4):
             nf = self.number_frames_of(lkind)
-            print(f"|\t{nf} ({nf*100/self.length():.2f}%) frames with label {lkind}; ", end='\t')
+            print(
+                f"|\t{nf} ({nf*100/self.length():.2f}%) frames with label {lkind}; ",
+                end="\t",
+            )
         print()
-        length_spans = list(map(lambda l: l[1]-l[0], self.labels))
-        print("|-\tlength of each span:\n|--\t\t", end='')
+        length_spans = list(map(lambda l: l[1] - l[0], self.labels))
+        print("|-\tlength of each span:\n|--\t\t", end="")
         print(
-                f"mean: {statistics.mean(length_spans):.2f}",
-                f"median: {statistics.median(length_spans)}",
-                f"variance: {statistics.variance(length_spans):.3f}",
-                f"stdev: {statistics.stdev(length_spans):.3f}",
-                sep="\t")
-
+            f"mean: {statistics.mean(length_spans):.2f}",
+            f"median: {statistics.median(length_spans)}",
+            f"variance: {statistics.variance(length_spans):.3f}",
+            f"stdev: {statistics.stdev(length_spans):.3f}",
+            sep="\t",
+        )
 
     @staticmethod
     def from_csv_in_seconds(fl: Path, name: str = "") -> Labelling:
