@@ -10,7 +10,7 @@ VIDEO_FPS: float = 29.97
 type SingleLabel = tuple[int, int, int]
 
 
-class Labelling(object):
+class Labelling:
     def __init__(self, name: str, ls: list[SingleLabel]) -> None:
         self.name = name
         self.labels = ls
