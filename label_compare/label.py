@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import math
+import statistics
 from pathlib import Path
 
 # label = (start, end (in frames), label)
@@ -37,6 +38,24 @@ class Labelling:
 
     def length(self) -> Frame:
         return self.labels[-1][1] -1
+
+    def report_stats(self) -> None:
+        print(self.name)
+        print(f"|\t {self.length()} frames total")
+        print(f"|-\t Number of frames for each labels:")
+        for lkind in range(4):
+            nf = self.number_frames_of(lkind)
+            print(f"|\t{nf} ({nf*100/self.length():.2f}%) frames with label {lkind}; ", end='\t')
+        print()
+        length_spans = list(map(lambda l: l[1]-l[0], self.labels))
+        print("|-\tlength of each span:\n|--\t\t", end='')
+        print(
+                f"mean: {statistics.mean(length_spans):.2f}",
+                f"median: {statistics.median(length_spans)}",
+                f"variance: {statistics.variance(length_spans):.3f}",
+                f"stdev: {statistics.stdev(length_spans):.3f}",
+                sep="\t")
+
 
     @staticmethod
     def from_csv_in_seconds(fl: Path, name: str = "") -> Labelling:

@@ -9,9 +9,7 @@ def main():
     datadir = Path("./examples/")
     dat = [Labelling.from_csv_in_seconds(f) for f in datadir.glob("label-data*.csv")]
     for d in dat:
-        print(d.name)
-        for label in range(4):
-            print(f"{d.number_frames_of(label)} frames with label {label}; ", end='\t')
+        d.report_stats()
         print("\n_____________________")
         # print(d.labels)
 
