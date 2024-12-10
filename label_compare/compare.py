@@ -22,7 +22,7 @@ class LabelComparer:
 
 
 lc_simple_agreement = LabelComparer(
-        "simple agreement",
-        lambda l0,l1: (lambda x: x[0]/x[1])(l0.agreement_with(l1)),
-        description = "simple agreement between frames"
-        )
+    "simple agreement",
+    lambda l0, l1: (lambda x: x[0] / x[1])(l0.agreement_with(l1)),
+    description="simple agreement between frames",
+)
