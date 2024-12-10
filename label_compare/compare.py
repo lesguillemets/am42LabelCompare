@@ -4,7 +4,12 @@ from label_compare.label import Labelling
 
 
 class LabelComparer:
-    def __init__(self, cmp:Callable[[Labelling,Labelling], float]) -> None:
+    def __init__(
+        self,
+        name: str,
+        cmp: Callable[[Labelling, Labelling], float],
+        description: str = "",
+    ) -> None:
         self.cmp = cmp
 
     def gen_comparison(self, labellings: list[Labelling]) -> list[list[float]]:
