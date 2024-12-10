@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from label_compare.label import Labelling
+from label_compare.compare import LabelComparer
 from pathlib import Path
 
 
