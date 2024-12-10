@@ -14,7 +14,7 @@ class LabelComparer:
 
     def gen_comparison(self, labellings: list[Labelling]) -> list[list[float]]:
         # self.gen_comparison(ls)[i][j] == self.cmp(ls[i],ls[j])
-        return [[self.cmp(li, lj) for lj in labellings]for li in labellings]
+        return [[self.cmp(li, lj) for lj in labellings] for li in labellings]
 
-    def report(self,labellings: list[Labelling]) -> None:
+    def report(self, labellings: list[Labelling]) -> None:
         print(self.gen_comparison(labellings))
