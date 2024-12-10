@@ -13,7 +13,8 @@ class LabelComparer:
         self.cmp = cmp
 
     def gen_comparison(self, labellings: list[Labelling]) -> list[list[float]]:
-        return [self.cmp(li,lj) for li in labellings for lj in labellings]
+        # self.gen_comparison(ls)[i][j] == self.cmp(ls[i],ls[j])
+        return [[self.cmp(li, lj) for lj in labellings]for li in labellings]
 
     def report(self,labellings: list[Labelling]) -> None:
         print(self.gen_comparison(labellings))
