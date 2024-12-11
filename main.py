@@ -22,7 +22,7 @@ def main():
     datadir = Path("./examples/")
     dat = [
         Labelling.from_csv_in_seconds(f, name=fname_to_name(f.name))
-        for f in datadir.glob("label-data*.csv")
+        for f in sorted(datadir.glob("label-data*.csv"))
     ]
     for d in dat:
         d.report_stats()
