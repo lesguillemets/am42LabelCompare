@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 from label_compare.label import Labelling
-from label_compare.compare import LabelComparer, lc_simple_agreement
+from label_compare.compare import LabelComparer
+from label_compare.labelcomparers import *
+
 from pathlib import Path
 
 
@@ -13,6 +15,8 @@ def main():
         print("\n_____________________")
         # print(d.labels)
     lc_simple_agreement.report(dat)
+    lc_hyperactive_agreement.report(dat)
+    lc_nothyper_agreement.report(dat)
 
 
 if __name__ == "__main__":
