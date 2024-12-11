@@ -9,6 +9,7 @@ import re
 from pathlib import Path
 
 PATTERN_FNAME_NAME = re.compile(r"label-data_*(.*)\.csv")
+PART_HEADER = "🭕🭠"+ "🭶"*40
 
 
 def fname_to_name(s: str) -> str:
@@ -28,10 +29,14 @@ def main():
         d.report_stats()
         print("\n_____________________")
         # print(d.labels)
+    print(PART_HEADER)
     lc_simple_agreement.report_ascii(dat)
+    print(PART_HEADER)
     lc_hyperactive_agreement.report_ascii(dat)
+    print(PART_HEADER)
     lc_nothyper_agreement.report_ascii(dat)
     for lc in lc_agreements_by_label:
+        print(PART_HEADER)
         lc.report_ascii(dat)
 
 
