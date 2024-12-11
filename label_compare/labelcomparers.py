@@ -7,6 +7,15 @@ lc_simple_agreement: LabelComparer[float] = LabelComparer(
     description="simple agreement between frames",
 )
 
+lc_agreements_by_label: list[LabelComparer[float]] = [
+    LabelComparer(
+        f"agreement for label {i}",
+        lambda l0, l1: (lambda x: x[0] / x[1])(l0.agreement_with(l1, for_label=[i])),
+        description=f"simple agreement for label {i} between frames",
+    )
+    for i in range(4)
+]
+
 lc_hyperactive_agreement: LabelComparer[float] = LabelComparer(
     "hyperactive agreement",
     lambda l0, l1: (lambda x: x[0] / x[1])(l0.agreement_with(l1, for_label=[2, 3])),

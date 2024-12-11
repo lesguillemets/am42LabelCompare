@@ -29,8 +29,10 @@ def main():
         print("\n_____________________")
         # print(d.labels)
     lc_simple_agreement.report_ascii(dat)
-    lc_hyperactive_agreement.report(dat)
-    lc_nothyper_agreement.report(dat)
+    lc_hyperactive_agreement.report_ascii(dat)
+    lc_nothyper_agreement.report_ascii(dat)
+    for lc in lc_agreements_by_label:
+        lc.report_ascii(dat)
 
 
 if __name__ == "__main__":
