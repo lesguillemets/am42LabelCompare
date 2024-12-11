@@ -4,10 +4,9 @@ from pprint import pprint
 import textwrap
 from label_compare.label import Labelling
 
-COLUMN_WIDTH = 12
+COLUMN_WIDTH = 18
 COLUMN_FLOAT_FORMAT = "{:.4f}"
 ROW_HEIGHT = 3
-
 
 class LabelComparer[T]:
     def __init__(
@@ -55,7 +54,7 @@ class LabelComparer[T]:
                 ).center(COLUMN_WIDTH)
                 if l_in_row == (ROW_HEIGHT + 1) // 2:
                     columns = [
-                        COLUMN_FLOAT_FORMAT.format(c).rjust(COLUMN_WIDTH) for c in row
+                        dat_to_cell_str(c) for c in row
                     ]
                 else:
                     columns = [" " * COLUMN_WIDTH for c in row]
@@ -68,3 +67,21 @@ class LabelComparer[T]:
     def report_ascii(self, lbls: list[Labelling]) -> None:
         print(f"{self.name} -- {self.description}")
         print(self.gen_ascii_table(lbls))
+
+def dat_to_cell_str(dat:object) -> str:
+    """
+    LabelComparer.cmp の返す T を，cell に収まるように返す．
+    幅はCOLUMN_WIDTH のstr
+    """
+    if isinstance(dat, float):
+        return COLUMN_FLOAT_FORMAT.format(dat).rjust(COLUMN_WIDTH)
+    elif isinstance(dat, str):
+        assert(len(dat) <= COLUMN_WIDTH)
+        return dat.rjust(COLUMN_WIDTH)
+    elif isinstance(dat, tuple) and (isinstance(dat[0], int) or isinstance(dat[0],float)):
+        # (n, outof) の pair の場合
+        ratio = dat[0]/dat[1]
+        return f"{dat[0]}/{dat[1]}({ratio:.3f})"[:COLUMN_WIDTH].rjust(COLUMN_WIDTH)
+    else:
+        rep = f"{dat}"
+        return rep[:COLUMN_WIDTH].center(COLUMN_WIDTH)
