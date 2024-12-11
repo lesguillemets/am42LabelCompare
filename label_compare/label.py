@@ -44,10 +44,10 @@ class Labelling:
     def at(self, n: Frame) -> Label:
         return self.__bucket[n]
 
-    def slice(self, fm:Frame, to:Frame) -> list[Label]:
+    def slice(self, fm: Frame, to: Frame) -> list[Label]:
         # slice で label を返す
         # to―th frame は含まれないのに留意 ([0,1,2,3,4][slice(2,4)] == [2,3])
-        return self.__bucket[slice(fm,to)]
+        return self.__bucket[slice(fm, to)]
 
     def length(self) -> Frame:
         return self.labels[-1][1] - 1

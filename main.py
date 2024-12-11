@@ -10,21 +10,20 @@ from pathlib import Path
 
 PATTERN_FNAME_NAME = re.compile(r"label-data_*(.*)\.csv")
 
-def fname_to_name(s:str) -> str:
+
+def fname_to_name(s: str) -> str:
     if (m := PATTERN_FNAME_NAME.match(s)) is not None:
         return m.group(1)
     else:
         return s
 
 
-
 def main():
     datadir = Path("./examples/")
     dat = [
-            Labelling.from_csv_in_seconds(
-                f, name= fname_to_name(f.name)
-                ) for f in datadir.glob("label-data*.csv")
-            ]
+        Labelling.from_csv_in_seconds(f, name=fname_to_name(f.name))
+        for f in datadir.glob("label-data*.csv")
+    ]
     for d in dat:
         d.report_stats()
         print("\n_____________________")

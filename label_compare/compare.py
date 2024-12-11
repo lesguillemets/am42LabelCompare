@@ -28,25 +28,27 @@ class LabelComparer[T]:
         print(self.description)
         pprint(self.gen_comparison(labellings))
 
-    def gen_report_ascii(self, labellings:list[Labelling]) -> str:
+    def gen_report_ascii(self, labellings: list[Labelling]) -> str:
         print(f"{self.name} -- {self.description}")
         header_names = [textwrap.wrap(l.name, width=COLUMN_WIDTH) for l in labellings]
-        header_height:int = max(map(len, header_names))
-        header = [ "┏" + '┳'.join(["━"*COLUMN_WIDTH]*(len(labellings)+1)) + "┓" ]
+        header_height: int = max(map(len, header_names))
+        header = ["┏" + "┳".join(["━" * COLUMN_WIDTH] * (len(labellings) + 1)) + "┓"]
         for line in range(header_height):
             header_line = "┃".join(
-                    map(lambda c: (c[line] if len(c) > line else "").center(COLUMN_WIDTH), header_names)
-                    )
-            header.append("┃" + ' '*COLUMN_WIDTH + "┃" + header_line + "┃")
-        header.append("┣" + '╋'.join(["━"*COLUMN_WIDTH]*(len(labellings)+1)) + "┫")
+                map(
+                    lambda c: (c[line] if len(c) > line else "").center(COLUMN_WIDTH),
+                    header_names,
+                )
+            )
+            header.append("┃" + " " * COLUMN_WIDTH + "┃" + header_line + "┃")
+        header.append(
+            "┣" + "╋".join(["━" * COLUMN_WIDTH] * (len(labellings) + 1)) + "┫"
+        )
 
         comps = self.gen_comparison(labellings)
         content = []
 
-        return('\n'.join(header))
+        return "\n".join(header)
 
     def report_ascii(self, lbls: list[Labelling]) -> None:
         print(self.gen_report_ascii(lbls))
-
-
-
