@@ -29,7 +29,7 @@ def main():
         d.report_stats()
         print("\n_____________________")
         # print(d.labels)
-    lc_simple_agreement.report(dat)
+    lc_simple_agreement.report_ascii(dat)
     lc_hyperactive_agreement.report(dat)
     lc_nothyper_agreement.report(dat)
 
