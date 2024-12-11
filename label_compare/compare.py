@@ -29,8 +29,7 @@ class LabelComparer[T]:
         print(self.description)
         pprint(self.gen_comparison(labellings))
 
-    def gen_report_ascii(self, labellings: list[Labelling]) -> str:
-        print(f"{self.name} -- {self.description}")
+    def gen_ascii_table(self, labellings: list[Labelling]) -> str:
         header_names = [textwrap.wrap(l.name, width=COLUMN_WIDTH) for l in labellings]
         header_height: int = max(map(len, header_names))
         header = ["┏" + "┳".join(["━" * COLUMN_WIDTH] * (len(labellings) + 1)) + "┓"]
@@ -67,4 +66,5 @@ class LabelComparer[T]:
         return "\n".join(header + content)
 
     def report_ascii(self, lbls: list[Labelling]) -> None:
-        print(self.gen_report_ascii(lbls))
+        print(f"{self.name} -- {self.description}")
+        print(self.gen_ascii_table(lbls))
