@@ -11,6 +11,7 @@ from pathlib import Path
 # the video is currently 29.97 fps
 
 VIDEO_FPS: float = 29.97
+DEBUG = False
 type Label = int
 type Frame = int
 type SingleLabel = tuple[Frame, Frame, Label]
@@ -76,14 +77,19 @@ class Labelling:
     def agreement_with(
         self, other: Labelling, for_label: list[Label] | None = None
     ) -> tuple[int, int]:
+        if DEBUG:
+            print(f"comparing {self.name} vs {other.name}, {for_label}")
         the_part = list(
             filter(
-                lambda z: for_label is None or z[0] in for_label,
+                lambda z: (for_label is None) or (z[0] in for_label),
                 zip(self.__bucket, other.__bucket),
             )
         )
         outof = len(the_part)
-        agreement = len(list(filter(lambda z: z[0] == z[1], the_part)))
+        if for_label is None:
+            agreement = len(list(filter(lambda z: (z[0] == z[1]), the_part)))
+        else:
+            agreement = len(list(filter(lambda z: (z[1] in for_label), the_part)))
         return (agreement, outof)
 
     @staticmethod

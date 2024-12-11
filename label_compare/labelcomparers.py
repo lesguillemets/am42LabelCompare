@@ -10,7 +10,9 @@ lc_simple_agreement: LabelComparer[float] = LabelComparer(
 lc_agreements_by_label: list[LabelComparer[float]] = [
     LabelComparer(
         f"agreement for label {i}",
-        lambda l0, l1: (lambda x: x[0] / x[1])(l0.agreement_with(l1, for_label=[i])),
+        lambda l0, l1, i=i: (lambda x: x[0] / x[1])(
+            l0.agreement_with(l1, for_label=[i])
+        ),
         description=f"simple agreement for label {i} between frames",
     )
     for i in range(4)
