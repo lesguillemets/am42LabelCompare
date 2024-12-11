@@ -5,6 +5,7 @@ import textwrap
 from label_compare.label import Labelling
 
 COLUMN_WIDTH = 12
+COLUMN_FLOAT_FORMAT = "{:.4f}"
 ROW_HEIGHT = 3
 
 
@@ -41,14 +42,29 @@ class LabelComparer[T]:
                 )
             )
             header.append("┃" + " " * COLUMN_WIDTH + "┃" + header_line + "┃")
-        header.append(
-            "┣" + "╋".join(["━" * COLUMN_WIDTH] * (len(labellings) + 1)) + "┫"
-        )
 
         comps = self.gen_comparison(labellings)
         content = []
-
-        return "\n".join(header)
+        for i, row in enumerate(comps):
+            content.append(
+                "┣" + "╋".join(["━" * COLUMN_WIDTH] * (len(labellings) + 1)) + "┫"
+            )
+            for l_in_row in range(ROW_HEIGHT):
+                current_from = header_names[i]
+                first_column = (
+                    current_from[l_in_row] if len(current_from) > l_in_row else ""
+                ).center(COLUMN_WIDTH)
+                if l_in_row == (ROW_HEIGHT + 1) // 2:
+                    columns = [
+                        COLUMN_FLOAT_FORMAT.format(c).rjust(COLUMN_WIDTH) for c in row
+                    ]
+                else:
+                    columns = [" " * COLUMN_WIDTH for c in row]
+                content.append("┃" + "┃".join([first_column] + columns) + "┃")
+        content.append(
+            "┗" + "┻".join(["━" * COLUMN_WIDTH] * (len(labellings) + 1)) + "┛"
+        )
+        return "\n".join(header + content)
 
     def report_ascii(self, lbls: list[Labelling]) -> None:
         print(self.gen_report_ascii(lbls))
