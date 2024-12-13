@@ -23,12 +23,34 @@ def to_bucket(labels: list[SingleLabel]) -> list[Label]:
         bucket.extend([label] * (en - st))
     return bucket
 
+def from_bucket(bucket:list[Label]) -> list[SingleLabel]:
+    current: Label = bucket[0]
+    current_start: Frame = 0
+    streak = 0
+    result = []
+    for (i,label) in enumerate(bucket):
+        if current == label:
+            streak += 1
+        else:
+            result.append(((current_start, current_start+streak,current)))
+            current = label
+            current_start = i
+            streak = 1
+    result.append(((current_start, current_start+streak,current)))
+    return result
+
+
 
 class Labelling:
     def __init__(self, name: str, ls: list[SingleLabel]) -> None:
         self.name = name
         self.labels = ls
         self.__bucket = to_bucket(ls)
+        print(from_bucket(self.__bucket))
+        try:
+            assert(self.labels == from_bucket(self.__bucket))
+        except AssertionError:
+            print(f">>>>> warn: mismatch in {name}")
 
     def say_hi(self):
         print("HI")
@@ -91,6 +113,7 @@ class Labelling:
         else:
             agreement = len(list(filter(lambda z: (z[1] in for_label), the_part)))
         return (agreement, outof)
+
 
     @staticmethod
     def from_csv_in_seconds(fl: Path, name: str = "") -> Labelling:
