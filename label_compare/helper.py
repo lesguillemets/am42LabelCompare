@@ -6,6 +6,7 @@ def majority[T](dat:list[T]) -> T:
     """
     majority vote.
     majority([1,1,1, 2, 190, 190]) == 1
+    majority([1,1,1, 2,2,2 190, 190]) == 2
     """
     counter: dict[T, int] = {}
     for d in dat:
@@ -13,6 +14,6 @@ def majority[T](dat:list[T]) -> T:
             counter[d] += 1
         else:
             counter[d] = 1
-    return max(counter, key=counter.get)
+    return max(counter, key=lambda x: (counter.get(x), x))
 
 
