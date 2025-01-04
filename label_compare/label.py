@@ -7,6 +7,8 @@ import statistics
 import itertools as it
 from pathlib import Path
 
+from label_compare.helper import majority
+
 # label = (start, end (in frames), label)
 # the video is currently 29.97 fps
 
@@ -129,6 +131,18 @@ class Labelling:
         else:
             agreement = len(list(filter(lambda z: (z[1] in for_label), the_part)))
         return (agreement, outof)
+
+    @staticmethod
+    def majority_vote(labellings: list[Labelling]) -> Labelling:
+        """
+        みんなの多数決で決めた評定
+        """
+        majority_bucket = list(
+                map(majority,
+                    zip(*(lb.__bucket for lb in labellings))
+                    )
+                )
+        return Labelling("majority_vote", from_bucket(majority_bucket))
 
 
     @staticmethod
