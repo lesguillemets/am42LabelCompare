@@ -1,3 +1,5 @@
+### 具体的な LabelComparer の定義
+
 from label_compare.label import Labelling
 from label_compare.compare import LabelComparer
 

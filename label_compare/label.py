@@ -14,15 +14,18 @@ VIDEO_FPS: float = 29.97
 DEBUG = False
 type Label = int
 type Frame = int
+# ここからここまでこのラベルだよ，というやつ
 type SingleLabel = tuple[Frame, Frame, Label]
 
 
+# SingleLabel を，各フレームでどのラベルが貼られたかのリストに変換
 def to_bucket(labels: list[SingleLabel]) -> list[Label]:
     bucket = []
     for st, en, label in labels:
         bucket.extend([label] * (en - st))
     return bucket
 
+# フレームごとのラベルのリストを SingleLabel のリストに戻す
 def from_bucket(bucket:list[Label]) -> list[SingleLabel]:
     current: Label = bucket[0]
     current_start: Frame = 0
@@ -42,20 +45,24 @@ def from_bucket(bucket:list[Label]) -> list[SingleLabel]:
 
 
 class Labelling:
+    """
+    評定つけた人，SingleLabel のリストとしての評定データ，それの bucket 化したもの
+    """ 
     def __init__(self, name: str, ls: list[SingleLabel]) -> None:
         self.name = name
         self.labels = ls
         self.__bucket = to_bucket(ls)
         print(from_bucket(self.__bucket))
+        # ここの assertion はもちろんフレームの切れ目の違いでエラーになる
         try:
             assert(self.labels == from_bucket(self.__bucket))
         except AssertionError:
             print(f">>>>> warn: mismatch in {name}")
 
-    def say_hi(self):
-        print("HI")
-
     def number_frames_of(self, l: Label | list[Label]) -> int:
+        """
+        l (単一のラベルまたはそのリスト)の評定されたフレーム数
+        """
         n = 0
         if not isinstance(l, list):
             l = [l]
@@ -65,6 +72,9 @@ class Labelling:
         return n
 
     def at(self, n: Frame) -> Label:
+        """
+        nフレーム目のラベルを返すヘルパ関数
+        """
         return self.__bucket[n]
 
     def slice(self, fm: Frame, to: Frame) -> list[Label]:
@@ -76,6 +86,9 @@ class Labelling:
         return self.labels[-1][1] - 1
 
     def report_stats(self) -> None:
+        """
+        一般的な統計情報
+        """
         print(self.name)
         print(f"|\t {self.length()} frames total")
         print("|-\t Number of frames for each labels:")
@@ -99,6 +112,9 @@ class Labelling:
     def agreement_with(
         self, other: Labelling, for_label: list[Label] | None = None
     ) -> tuple[int, int]:
+        """
+        Other との単なる合致率を， list[Label] で与えたラベルについて計算
+        """
         if DEBUG:
             print(f"comparing {self.name} vs {other.name}, {for_label}")
         the_part = list(

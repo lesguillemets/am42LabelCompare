@@ -9,6 +9,10 @@ COLUMN_FLOAT_FORMAT = "{:.4f}"
 ROW_HEIGHT = 3
 
 class LabelComparer[T]:
+    """
+    Labelling と Labelling を比較して，結果として T を返すのが仕事．
+    gen_comparison では全通りの比較をして返す
+    """
     def __init__(
         self,
         name: str,
