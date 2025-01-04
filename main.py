@@ -21,6 +21,8 @@ def main():
         # print(d.labels)
     majority: Labelling = Labelling.majority_vote(dat)
     majority.report_stats()
+    majority.save_to_csv_in_seconds(datadir / "majority_vote.csv")
+    # dat[0].save_to_csv_in_seconds( f"{datadir}/{dat[0].name}-reconfigured.csv") works well
     dat.append(majority)
     print(PART_HEADER)
     lc_simple_agreement.report_ascii(dat)

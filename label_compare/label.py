@@ -168,3 +168,18 @@ class Labelling:
                 for (s, e, l) in reader
             ]
             return Labelling(name, dat)
+
+    def to_csv_in_seconds(self) -> str:
+        """
+        reverse of from_csv_in_seconds
+        """
+        return "\n".join(
+            f"{start/VIDEO_FPS},{end/VIDEO_FPS},{lb}" for (start, end, lb) in self.labels
+        )
+
+    def save_to_csv_in_seconds(self, fl: Path) -> None:
+        with open(fl, "w") as csvfile:
+            csvfile.write("start,end,label\n")
+            csvfile.write(self.to_csv_in_seconds())
+
+
