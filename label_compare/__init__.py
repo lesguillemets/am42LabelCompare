@@ -7,7 +7,7 @@ PATTERN_FNAME_NAME: re.Pattern[str] = re.compile(r"label-data_*(.*)\.csv")
 
 
 def read_labels_from_dir(datadir: Path, prefix: str = "label-data") -> list[Labelling]:
-    pattern: re.Pattern[str] = re.compile(f"{prefix}_*(.*)\.csv")
+    pattern: re.Pattern[str] = re.compile(rf"{prefix}_*(.*)\.csv")
     return [
         Labelling.from_csv_in_seconds(f, name=fname_to_name(f.name, pattern))
         for f in sorted(datadir.glob(f"{prefix}*.csv"))
