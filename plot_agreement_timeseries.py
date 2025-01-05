@@ -1,5 +1,6 @@
 
 import matplotlib.pyplot as plt
+import matplotlib.colors as clr
 
 N : int = 5
 
@@ -15,11 +16,13 @@ width_in_pixels = 2000
 width_in_inches = width_in_pixels / 96
 
 # Specify the height in inches (you can adjust this as needed)
-height_in_inches = 6
+height_in_inches = 3
 
 def main():
-    d = load("./examples/majority_counts.csv")
+    # d = load("./examples/majority_counts.csv") # ラベルの一致した数
+    d = load("./assets/majority_counts_HAorNOHA.csv") # HAかどうかの合致
     report(d)
+    report_two(d)
     do_plot(d)
     # fig = plt.figure()
 
@@ -31,11 +34,19 @@ def report(d):
     matches = len(list(filter(lambda n: n > N//2, d)))
     print(f"{matches} / {l} frames: ratio = {matches/l}"  )
 
+def report_two(d):
+    """
+    4人以上の人が合致してるフレーム数
+    """
+    l = len(d)
+    matches = len(list(filter(lambda n: n >= 4, d)))
+    print(f"{matches} / {l} frames: ratio = {matches/l}"  )
+
 def do_plot(d):
     fig, ax = plt.subplots(figsize=(width_in_inches, height_in_inches))
-    ax.fill_between(range(len(d)),d)
+    ax.fill_between(range(len(d)),d, color=clr.CSS4_COLORS['teal'])
     ax.set_xlim(0, len(d))
-    ax.set_ylim(0, N+1)
+    ax.set_ylim(0, N)
     ax.set_yticks(list(range(N)))
     ax.tick_params(axis='y', direction='in', pad=-22)
     fig.show()

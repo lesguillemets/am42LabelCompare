@@ -185,7 +185,7 @@ class Labelling:
     @staticmethod
     def count_majority_number(labellings: list[Labelling]) -> list[int]:
         """
-        フレームごとに，一番多いところで何人の評定が合致してるか
+        フレームごとに，何人の評定が合致してるか
         """
         frames = zip(*(lb.__bucket for lb in labellings))
         result = []
@@ -196,5 +196,20 @@ class Labelling:
                     counter[d] += 1
                 else:
                     counter[d] = 1
+            result.append(max(counter.values()))
+        return result
+
+    @staticmethod
+    def count_agreement_HAorNOHA(labellings: list[Labelling]) -> list[int]:
+        """
+        フレームごとに，hyperactive かどうかの評定が何人で一致するか
+        """
+        frames = zip(*(lb.__bucket for lb in labellings))
+        result = []
+        for f in frames:
+            counter: dict[bool, int] = {True:0, False:0}
+            for d in f:
+                is_hyper = d in [2,3]
+                counter[is_hyper] += 1
             result.append(max(counter.values()))
         return result
