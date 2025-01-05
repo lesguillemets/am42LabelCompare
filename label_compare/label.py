@@ -182,4 +182,19 @@ class Labelling:
             csvfile.write("start,end,label\n")
             csvfile.write(self.to_csv_in_seconds())
 
-
+    @staticmethod
+    def count_majority_number(labellings: list[Labelling]) -> list[int]:
+        """
+        フレームごとに，一番多いところで何人の評定が合致してるか
+        """
+        frames = zip(*(lb.__bucket for lb in labellings))
+        result = []
+        for f in frames:
+            counter: dict[Label, int] = {}
+            for d in f:
+                if d in counter:
+                    counter[d] += 1
+                else:
+                    counter[d] = 1
+            result.append(max(counter.values()))
+        return result
