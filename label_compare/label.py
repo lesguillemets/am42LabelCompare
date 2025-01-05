@@ -213,3 +213,12 @@ class Labelling:
                 counter[is_hyper] += 1
             result.append(max(counter.values()))
         return result
+
+    def take_max_beforeafter_N_frames(self, n:int) -> Labelling:
+        """
+        そのフレームの前後nフレームずつをとって，その中の最大のラベルを採用する
+        """
+        new_bucket:list[Label] = []
+        for i in range(len(self.__bucket)):
+            new_bucket.append(max(self.__bucket[max(0, i-n):i+n+1]))
+        return Labelling(self.name, from_bucket(new_bucket))
