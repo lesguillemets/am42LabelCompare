@@ -8,10 +8,10 @@ from pathlib import Path
 import statistics as st
 
 def main():
-    datadir = Path("./examples/")
-    dat: list[Labelling] = read_labels_from_dir(datadir)
+    datadir = Path("./assets/converted_to_max_6frames/iter02/")
+    dat: list[Labelling] = read_labels_from_dir(datadir, prefix="conv_")
     majority_counts: list[int] = Labelling.count_majority_number(dat)
-    with open("./examples/majority_counts.csv", 'w') as f:
+    with open("./assets/majority_iter2_conv_6frames_counts.csv", 'w') as f:
         f.write('\n'.join(map(str, majority_counts)))
     print(st.mean(majority_counts))
     print(st.stdev(majority_counts))
