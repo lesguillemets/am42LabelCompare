@@ -7,7 +7,12 @@ from pathlib import Path
 
 import statistics as st
 
+
 def main():
+    """
+    各フレームで，同じラベルを付けた最大のところで何人が一致してるかを計算して，
+    それを単に保存している
+    """
     datadir = Path("./assets/converted_to_max_6frames/iter02/")
     dat: list[Labelling] = read_labels_from_dir(datadir, prefix="conv_")
     majority_counts: list[int] = Labelling.count_majority_number(dat)
