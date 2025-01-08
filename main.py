@@ -5,7 +5,7 @@ from label_compare.label import Labelling
 from label_compare.compare import LabelComparer
 from label_compare.labelcomparers import *
 
-import convert_to_max_6frames as conv
+import convert_to_max_n_frames as conv
 
 import argparse
 
@@ -42,7 +42,7 @@ def main():
     # majority.save_to_csv_in_seconds(args.dir / "majority_vote.csv")
     # dat[0].save_to_csv_in_seconds( f"{datadir}/{dat[0].name}-reconfigured.csv") works well
 
-    
+
 def do_stats(dat, args):
     if args.with_majority:
         majority: Labelling = Labelling.majority_vote(dat)
