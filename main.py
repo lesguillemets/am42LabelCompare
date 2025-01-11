@@ -22,11 +22,11 @@ subparsers = AP.add_subparsers(dest="command", required=True)
 parser_stat = subparsers.add_parser("report-stats", help="Prints the stats of the labels")
 parser_stat.add_argument("--with-majority", action="store_true", help="多数決結果を含めるか")
 
-parser_crete_max_n = subparsers.add_parser(
+parser_create_max_n = subparsers.add_parser(
     "gen-max-n-frames", help="前後nフレームの最大値で見たファイルを作成")
-parser_crete_max_n.add_argument("-n", type=int, help="number of neighbouring frames to consider", default=6)
-parser_crete_max_n.add_argument("--output-dir", type=Path, help="ここの下にディレクトリを切る", default=Path("output"))
-parser_crete_max_n.add_argument("--output-prefix", type=str, help="{op}_{n}_{d.name}.csv に保存", default="conv")
+parser_create_max_n.add_argument("-n", type=int, help="number of neighbouring frames to consider", default=6)
+parser_create_max_n.add_argument("--output-dir", type=Path, help="ここの下にディレクトリを切る", default=Path("output"))
+parser_create_max_n.add_argument("--output-prefix", type=str, help="{op}_{n}_{d.name}.csv に保存", default="conv")
 
 
 
